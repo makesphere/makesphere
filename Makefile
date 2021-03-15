@@ -19,9 +19,8 @@ new_post:
 serve:
 	venv/bin/nikola $@ -d
 
-kill:
-	kill -9 `cat blog/nikolaserve.pid` && \
-	rm blog/nikolaserve.pid
+github_deploy:
+	venv/bin/nikola $@
 
 clean:
 	venv/bin/nikola check --clean-files

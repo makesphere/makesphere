@@ -7,6 +7,7 @@ authors = ["Makesphere <makeshasphere@gmail.com>"]
 [tool.poetry.dependencies]
 python = ">3.7"
 Nikola = {extras = ["extras"], version = "^8.1.3"}
+ghp-import = "^1.0.1"
 
 [tool.poetry.dev-dependencies]
 
