@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="assets/xml/rss.xsl" media="all"?><rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Makesphere</title><link>https://example.com/</link><description>Makesphere's blog</description><atom:link href="https://example.com/rss.xml" rel="self" type="application/rss+xml"></atom:link><language>en</language><copyright>Contents © 2021 &lt;a href="mailto:makeshasphere@gmail.com"&gt;Makesphere&lt;/a&gt; </copyright><lastBuildDate>Mon, 15 Mar 2021 23:50:08 GMT</lastBuildDate><generator>Nikola (getnikola.com)</generator><docs>http://blogs.law.harvard.edu/tech/rss</docs><item><title>Handleling nginx redirects</title><link>https://example.com/posts/nginx-redirects-management/</link><dc:creator>Makesphere</dc:creator><description>&lt;div&gt;&lt;h2&gt;Nginx Tips for managing redirects in different situation&lt;/h2&gt;
+&lt;h3&gt;Redirects patterns&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;redirect by location, for consistent pattern&lt;/li&gt;
+&lt;li&gt;redirect by map, for bulk redirects with a lot of non-consistent pattern&lt;/li&gt;
+&lt;li&gt;redirect by rewrite, when not possible to use other option for any reasons, e.g., modify the &lt;code&gt;map_hash_bucket_size&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Examples&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;rewrite redirects example:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;rewrite ^/tags/tags-name-1/?$    /articles/?q=&amp;amp;tag=tags-name-1&amp;amp;at= permanent;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;location redirects example:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;; tags redirect&lt;/span&gt;
+&lt;span class="nv"&gt;location&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nv"&gt;tags&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="ss"&gt;(&lt;/span&gt;.&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt;$ {
+    &lt;span class="c1"&gt;; rewrite ^ /new-name/$1?$args permanent;&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;301&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nv"&gt;articles&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;?&lt;span class="nv"&gt;q&lt;/span&gt;&lt;span class="o"&gt;=&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;tag&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mh"&gt;$1&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="nv"&gt;at&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="c1"&gt;;&lt;/span&gt;
+}
+
+&lt;span class="nv"&gt;location&lt;/span&gt; &lt;span class="o"&gt;~&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nv"&gt;about&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="ss"&gt;(&lt;/span&gt;.&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt;$ {
+    &lt;span class="c1"&gt;; rewrite ^ /new-name/$1?$args permanent;&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;301&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nv"&gt;about&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nv"&gt;us&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mh"&gt;$1&lt;/span&gt;&lt;span class="c1"&gt;;&lt;/span&gt;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;ul&gt;
+&lt;li&gt;map redirect example:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;; nginx/common/redirects.conf&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="ss"&gt;(&lt;/span&gt;$&lt;span class="nv"&gt;redirect_uri&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="s"&gt;none&lt;/span&gt;&lt;span class="s2"&gt;"&lt;/span&gt;&lt;span class="ss"&gt;)&lt;/span&gt; {
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="mi"&gt;301&lt;/span&gt; $&lt;span class="nv"&gt;redirect_uri&lt;/span&gt;&lt;span class="c1"&gt;;&lt;/span&gt;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;; nginx/common/redirects-map.conf
+
+default "none";
+/tags/tag-name-1/    /articles/?q=&amp;amp;tag=tag-name-1&amp;amp;at=;
+/tags/tag-name-2/    /articles/?q=&amp;amp;tag=tag-name-2&amp;amp;at=;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre class="code literal-block"&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="c1"&gt;; nginx/common/server_security_settings.conf&lt;/span&gt;
+
+&lt;span class="c1"&gt;; Redirects map settings&lt;/span&gt;
+&lt;span class="c1"&gt;; map_hash_bucket_size 128; # this value needs to be written in the /etc/nginx/nginx.conf file as it warns to find a duplicate when not in the file&lt;/span&gt;
+&lt;span class="nv"&gt;map&lt;/span&gt; $&lt;span class="nv"&gt;uri&lt;/span&gt; $&lt;span class="nv"&gt;redirect_uri&lt;/span&gt; {
+    &lt;span class="k"&gt;include&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nv"&gt;srv&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nv"&gt;sites&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nv"&gt;cis&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nv"&gt;etc&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nv"&gt;nginx&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nv"&gt;common&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="nv"&gt;redirects&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nv"&gt;map&lt;/span&gt;.&lt;span class="nv"&gt;conf&lt;/span&gt;&lt;span class="c1"&gt;;&lt;/span&gt;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3&gt;Performance&lt;/h3&gt;
+&lt;p&gt;That blog site, has done a very good job at testing those different redirect type performances - &lt;a href="https://www.dogsbody.com/blog/nginx-optimising-redirects/"&gt;https://www.dogsbody.com/blog/nginx-optimising-redirects/&lt;/a&gt;. The result is that for optimizing bulk redirects the map solution appears to be performing at any numbers of redirects. There is no disadvantage to set it up like that.&lt;/p&gt;
+&lt;h3&gt;Conclusion&lt;/h3&gt;
+&lt;p&gt;If I can add my grain of salt to the story, I'd say to use first the redirect pattern if the use case allows it, otherwise I would use for any other cases the map pattern as it provides a possibility to scale up.&lt;/p&gt;
+&lt;h3&gt;Some tips&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;check special characters&lt;/li&gt;
+&lt;li&gt;check to add the &lt;code&gt;?$&lt;/code&gt; at the end&lt;/li&gt;
+&lt;li&gt;make use of map {} for long list of redirects (even though it uses an if statement)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Resources and to read further&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.dogsbody.com/blog/nginx-optimising-redirects/"&gt;https://www.dogsbody.com/blog/nginx-optimising-redirects/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/#taxing-rewrites"&gt;https://www.nginx.com/resources/wiki/start/topics/tutorials/config_pitfalls/#taxing-rewrites&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/div&gt;</description><guid>https://example.com/posts/nginx-redirects-management/</guid><pubDate>Sun, 14 Mar 2021 20:02:30 GMT</pubDate></item></channel></rss>
