@@ -1,32 +1,33 @@
 SHELL=/bin/bash
 
+all: kill clean build serve
+
 install:
 	python3 -m venv venv
-	venv/bin/python -m pip install -U pip
-	VIRTUAL_ENV=venv poetry install --no-root -vvv
+	venv/bin/python -m pip $@ -U pip
+	VIRTUAL_ENV=venv poetry $@ --no-root -vvv
 
 init:
-	#cd blog \
-	#&& nikola init --demo blog
+	venv/bin/nikola $@
 
 build:
-	cd blog && \
-	venv/bin/nikola build
+	venv/bin/nikola $@
 
 new_post:
-	cd blog && \
-	venv/bin/nikola new_post -f markdown
+	venv/bin/nikola $@ -f markdown
 
 serve:
-	cd blog && \
-	venv/bin/nikola serve -d
+	venv/bin/nikola $@ -d
 
 kill:
 	kill -9 `cat blog/nikolaserve.pid` && \
 	rm blog/nikolaserve.pid
 
 clean:
-	cd blog && \
 	venv/bin/nikola check --clean-files
+
+kill:
+	$@ -9 `cat nikolaserve.pid` && \
+	rm nikolaserve.pid
 
 .PHONY: install init build new_post serve kill
