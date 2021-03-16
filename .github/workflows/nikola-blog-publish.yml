@@ -11,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     name: 'Deploy Nikola to GitHub Pages'
     steps:
+
     - name: Check out
       uses: actions/checkout@v2
     
@@ -21,29 +22,17 @@ jobs:
         email: 'makeshasphere@gmail.com'
         actor: 'Makesphere'
         token: '${{ secrets.GITHUB_TOKEN }}'
-    
-    # - run: git config --global user.email "makeshasphere@gmail.com"
-    # - run: git config --global user.name "Makesphere"
 
     - name: Set up Python 3.8
       uses: actions/setup-python@v1
       with:
         python-version: 3.8
 
-    # - name: Set .giconfig
-    #   run: |
-    #     echo '
-    #     [user]
-    #         name = Makesphere
-    #         username = makesphere
-    #         email = makeshasphere@gmail.com
-    #     ' >> ~/.gitconfig
-    # - name: Build and Deploy Nikola
-    #   uses: getnikola/nikola-action@v2
-
     - name: Install
       run:  make poetry_install
-    - name: Build
+
+      - name: Build
       run:  make build
-    - name: Deploy
+
+      - name: Deploy
       run:  make github_deploy

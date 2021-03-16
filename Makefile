@@ -9,7 +9,8 @@ install:
 
 poetry_install:
 	python3 -m venv venv
-	venv/bin/python -m pip install -U pip poetry
+	venv/bin/python -m pip install -U pip
+	venv/bin/python -m pip install poetry
 	VIRTUAL_ENV=venv poetry install --no-root -v
 
 init:
