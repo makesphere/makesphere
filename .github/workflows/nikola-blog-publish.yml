@@ -30,10 +30,14 @@ jobs:
 
     - name: Install
       run:  |
-        make poetry_install
+        pip install -U pip
+        pip install poetry
+        poetry install --no-root -v
+
     - name: Build
       run:  |
-        make build
+        nikola build
+
     - name: Deploy
       run:  |
-        make github_deploy
+        nikola github_deploy
