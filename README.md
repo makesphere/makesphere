@@ -7,7 +7,7 @@
 - [x] initialization
 - [ ] go through guides:
   - [ ] https://randlow.github.io/posts/python/create-nikola-coding-blog/
-  - [ ] https://jiaweizhuang.github.io/blog/nikola-guide/
+  - [x] https://jiaweizhuang.github.io/blog/nikola-guide/
   - [ ] https://github.com/marketplace/actions/deploy-nikola-to-github-pages
   - [ ] https://github.com/asmeurer/blog/blob/master/posts/moving-to-github-pages-with-nikola.md
   - [ ] https://groups.google.com/g/nikola-discuss/c/JjgJbsdkOqg?pli=1
@@ -16,14 +16,14 @@
     - [ ] make sure all links are good
     - [ ] make sure there's no typo
     - [ ] build before commit
-
 ### infra automation
 
-- [ ] deploy on makeshphere
-  - [ ] how to to deploy to github
-    - [ ] https://getnikola.com/handbook.html#deploying-to-github
+- [x] deploy on makesphere
+  - [x] how to to deploy to github
+    - [x] https://getnikola.com/handbook.html#deploying-to-github
 - [ ] explore automation
-  - [ ] auto-rebuild: https://getnikola.com/blog/automating-nikola-rebuilds-with-github-actions.html
+  - [x] auto-rebuild: https://getnikola.com/blog/automating-nikola-rebuilds-with-github-actions.html
+    - [ ] setup .gitconfig in the CI
   - [ ] go through check list
   - [ ] git hook
   - [ ] deploy/export to static before commit

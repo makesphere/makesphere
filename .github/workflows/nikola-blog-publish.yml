@@ -1,4 +1,10 @@
-on: [push]
+on:
+  push:
+    branches:
+      - src
+  pull_request:
+    branches:
+      - src
 
 jobs:
   nikola_build:
@@ -7,5 +13,12 @@ jobs:
     steps:
     - name: Check out
       uses: actions/checkout@v2
+    - uses: oleksiyrudenko/gha-git-credentials@v2.1
+      with:
+        global: true
+        name: 'Makesphere'
+        email: 'makeshasphere@gmail.com'
+        actor: 'Makesphere'
+        # token: '${{ secrets.GL_PAT_WEB_CENTRAL }}'
     - name: Build and Deploy Nikola
       uses: getnikola/nikola-action@v2
