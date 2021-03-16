@@ -7,6 +7,11 @@ install:
 	venv/bin/python -m pip $@ -U pip
 	VIRTUAL_ENV=venv poetry $@ --no-root -vvv
 
+poetry_install:
+	python3 -m venv venv
+	venv/bin/python -m pip install -U pip poetry
+	VIRTUAL_ENV=venv poetry install --no-root -v
+
 init:
 	venv/bin/nikola $@
 
