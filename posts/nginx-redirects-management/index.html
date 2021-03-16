@@ -109,49 +109,49 @@ redir">
 <ul>
 <li>rewrite redirects example:</li>
 </ul>
-<pre class="code literal-block"><span></span><code>rewrite ^/tags/tags-name-1/?$    /articles/?q=&amp;tag=tags-name-1&amp;at= permanent;
-</code></pre>
+<pre class="code literal-block"><span></span>rewrite ^/tags/tags-name-1/?$    /articles/?q=&amp;tag=tags-name-1&amp;at= permanent;
+</pre>
 
 <ul>
 <li>location redirects example:</li>
 </ul>
-<pre class="code literal-block"><span></span><code><span class="c1">; tags redirect</span>
-<span class="nv">location</span> <span class="o">~</span> <span class="o">/</span><span class="nv">tags</span><span class="o">/</span><span class="ss">(</span>.<span class="o">*</span><span class="ss">)</span>$ {
-    <span class="c1">; rewrite ^ /new-name/$1?$args permanent;</span>
-    <span class="k">return</span> <span class="mi">301</span> <span class="o">/</span><span class="nv">articles</span><span class="o">/</span>?<span class="nv">q</span><span class="o">=&amp;</span><span class="nv">tag</span><span class="o">=</span><span class="mh">$1</span><span class="o">&amp;</span><span class="nv">at</span><span class="o">=</span><span class="c1">;</span>
+<pre class="code literal-block"><span></span>; tags redirect
+location ~ /tags/(.*)$ {
+    ; rewrite ^ /new-name/$1?$args permanent;
+    return 301 /articles/?q=&amp;tag=$1&amp;at=;
 }
 
-<span class="nv">location</span> <span class="o">~</span> <span class="o">/</span><span class="nv">about</span><span class="o">/</span><span class="ss">(</span>.<span class="o">*</span><span class="ss">)</span>$ {
-    <span class="c1">; rewrite ^ /new-name/$1?$args permanent;</span>
-    <span class="k">return</span> <span class="mi">301</span> <span class="o">/</span><span class="nv">about</span><span class="o">-</span><span class="nv">us</span><span class="o">/</span><span class="mh">$1</span><span class="c1">;</span>
+location ~ /about/(.*)$ {
+    ; rewrite ^ /new-name/$1?$args permanent;
+    return 301 /about-us/$1;
 }
-</code></pre>
+</pre>
 
 <ul>
 <li>map redirect example:</li>
 </ul>
-<pre class="code literal-block"><span></span><code><span class="c1">; nginx/common/redirects.conf</span>
+<pre class="code literal-block"><span></span>; nginx/common/redirects.conf
 
-<span class="k">if</span> <span class="ss">(</span>$<span class="nv">redirect_uri</span> <span class="o">!=</span> <span class="s2">"</span><span class="s">none</span><span class="s2">"</span><span class="ss">)</span> {
-    <span class="k">return</span> <span class="mi">301</span> $<span class="nv">redirect_uri</span><span class="c1">;</span>
+if ($redirect_uri != "none") {
+    return 301 $redirect_uri;
 }
-</code></pre>
+</pre>
 
-<pre class="code literal-block"><span></span><code>; nginx/common/redirects-map.conf
+<pre class="code literal-block"><span></span>; nginx/common/redirects-map.conf
 
 default "none";
 /tags/tag-name-1/    /articles/?q=&amp;tag=tag-name-1&amp;at=;
 /tags/tag-name-2/    /articles/?q=&amp;tag=tag-name-2&amp;at=;
-</code></pre>
+</pre>
 
-<pre class="code literal-block"><span></span><code><span class="c1">; nginx/common/server_security_settings.conf</span>
+<pre class="code literal-block"><span></span>; nginx/common/server_security_settings.conf
 
-<span class="c1">; Redirects map settings</span>
-<span class="c1">; map_hash_bucket_size 128; # this value needs to be written in the /etc/nginx/nginx.conf file as it warns to find a duplicate when not in the file</span>
-<span class="nv">map</span> $<span class="nv">uri</span> $<span class="nv">redirect_uri</span> {
-    <span class="k">include</span> <span class="o">/</span><span class="nv">srv</span><span class="o">/</span><span class="nv">sites</span><span class="o">/</span><span class="nv">cis</span><span class="o">/</span><span class="nv">etc</span><span class="o">/</span><span class="nv">nginx</span><span class="o">/</span><span class="nv">common</span><span class="o">/</span><span class="nv">redirects</span><span class="o">-</span><span class="nv">map</span>.<span class="nv">conf</span><span class="c1">;</span>
+; Redirects map settings
+; map_hash_bucket_size 128; # this value needs to be written in the /etc/nginx/nginx.conf file as it warns to find a duplicate when not in the file
+map $uri $redirect_uri {
+    include /srv/sites/cis/etc/nginx/common/redirects-map.conf;
 }
-</code></pre>
+</pre>
 
 <h3>Performance</h3>
 <p>That blog site, has done a very good job at testing those different redirect type performances - <a href="https://www.dogsbody.com/blog/nginx-optimising-redirects/">https://www.dogsbody.com/blog/nginx-optimising-redirects/</a>. The result is that for optimizing bulk redirects the map solution appears to be performing at any numbers of redirects. There is no disadvantage to set it up like that.</p>
