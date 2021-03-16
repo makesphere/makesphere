@@ -23,21 +23,25 @@ jobs:
         actor: 'makesphere'
         token: '${{ secrets.GITHUB_TOKEN }}'
 
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v1
-      with:
-        python-version: 3.8
+    # - name: Set up Python 3.8
+    #   uses: actions/setup-python@v1
+    #   with:
+    #     python-version: 3.8
+
+    # - name: Install
+    #   run:  |
+    #     pip install -U pip
+    #     pip install poetry
+    #     poetry install --no-root -v
+
+    # - name: Build
+    #   run:  |
+    #     poetry run nikola build
+
+    # - name: Deploy
+    #   run:  |
+    #     poetry run nikola github_deploy
 
     - name: Install
       run:  |
-        pip install -U pip
-        pip install poetry
-        poetry install --no-root -v
-
-    - name: Build
-      run:  |
-        poetry run nikola build
-
-    - name: Deploy
-      run:  |
-        poetry run nikola github_deploy
+        ./deploy.sh
