@@ -13,15 +13,25 @@ jobs:
     steps:
     - name: Check out
       uses: actions/checkout@v2
-    # - uses: oleksiyrudenko/gha-git-credentials@v2.1
-    #   with:
-    #     global: true
-    #     name: 'Makesphere'
-    #     email: 'makeshasphere@gmail.com'
-    #     actor: 'Makesphere'
-    #     # token: '${{ secrets.GL_PAT_WEB_CENTRAL }}'
-    - run: git config --global user.email "makeshasphere@gmail.com"
-    - run: git config --global user.name "Makesphere"
+    
+    - uses: oleksiyrudenko/gha-git-credentials@v2.1
+    with:
+      global: true
+      name: 'Makesphere'
+      email: 'makeshasphere@gmail.com'
+      actor: 'Makesphere'
+      token: '${{ secrets.GITHUB_TOKEN }}'
+    
+    
+    # - run: git config --global user.email "makeshasphere@gmail.com"
+    # - run: git config --global user.name "Makesphere"
+
+
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+
     # - name: Set .giconfig
     #   run: |
     #     echo '
@@ -32,3 +42,13 @@ jobs:
     #     ' >> ~/.gitconfig
     - name: Build and Deploy Nikola
       uses: getnikola/nikola-action@v2
+
+    - name: Install
+      run:  |
+        make install
+    - name: Build
+      run:  |
+        make build
+    - name: Deploy
+      run:  |
+        make github_deploy
