@@ -29,10 +29,11 @@ jobs:
         python-version: 3.8
 
     - name: Install
-      run:  make poetry_install
-
-      - name: Build
-      run:  make build
-
-      - name: Deploy
-      run:  make github_deploy
+      run:  |
+        make poetry_install
+    - name: Build
+      run:  |
+        make build
+    - name: Deploy
+      run:  |
+        make github_deploy
