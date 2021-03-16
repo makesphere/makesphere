@@ -18,9 +18,9 @@ jobs:
     - uses: oleksiyrudenko/gha-git-credentials@v2.1
       with:
         global: true
-        name: 'Makesphere'
+        name: 'makesphere'
         email: 'makeshasphere@gmail.com'
-        actor: 'Makesphere'
+        actor: 'makesphere'
         token: '${{ secrets.GITHUB_TOKEN }}'
 
     - name: Set up Python 3.8
