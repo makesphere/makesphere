@@ -36,8 +36,8 @@ jobs:
 
     - name: Build
       run:  |
-        nikola build
+        poetry run nikola build
 
     - name: Deploy
       run:  |
-        nikola github_deploy
+        poetry run nikola github_deploy
