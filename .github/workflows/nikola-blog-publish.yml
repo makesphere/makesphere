@@ -13,12 +13,20 @@ jobs:
     steps:
     - name: Check out
       uses: actions/checkout@v2
-    - uses: oleksiyrudenko/gha-git-credentials@v2.1
-      with:
-        global: true
-        name: 'Makesphere'
-        email: 'makeshasphere@gmail.com'
-        actor: 'Makesphere'
-        # token: '${{ secrets.GL_PAT_WEB_CENTRAL }}'
+    # - uses: oleksiyrudenko/gha-git-credentials@v2.1
+    #   with:
+    #     global: true
+    #     name: 'Makesphere'
+    #     email: 'makeshasphere@gmail.com'
+    #     actor: 'Makesphere'
+    #     # token: '${{ secrets.GL_PAT_WEB_CENTRAL }}'
+    - name: Set .giconfig
+      run: |
+        echo '
+        [user]
+          name = Makesphere
+          username = makesphere
+          email = makeshasphere@gmail.com
+        ' >> ~/.gitconfig
     - name: Build and Deploy Nikola
       uses: getnikola/nikola-action@v2
